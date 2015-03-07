@@ -37,11 +37,11 @@ class DBUtils(object):
 
     def dump_test_data(self):
         self.connect()
-        sql_scripts = "INSERT INTO entries VALUES('python', 'python is usefull');"
-        sql_scripts += "INSERT INTO entries VALUES('linux', 'linux is powerfull');"
-        sql_scripts += "INSERT INTO entries VALUES('java', 'java is heavy');"
-        sql_scripts += "INSERT INTO entries VALUES('lua', 'lua is good');"
-        sql_scripts += "INSERT INTO entries VALUES('ruby', 'ruby is hard');"
+        sql_scripts = "INSERT INTO entries(title, text) VALUES('python', 'python is usefull');"
+        sql_scripts += "INSERT INTO entries(title, text) VALUES('linux', 'linux is powerfull');"
+        sql_scripts += "INSERT INTO entries(title, text) VALUES('java', 'java is heavy');"
+        sql_scripts += "INSERT INTO entries(title, text) VALUES('lua', 'lua is good');"
+        sql_scripts += "INSERT INTO entries(title, text) VALUES('ruby', 'ruby is hard');"
         self.cursor.executescript(sql_scripts)
         self.commit()
         self.close()
