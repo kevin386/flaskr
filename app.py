@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 def configure_app(app):
     # 载入配置
-    app.config.from_object(config.__name__)
+    app.config.from_object(config)
 
     # 导入sql
     #db.dump_sql(app)

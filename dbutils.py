@@ -16,7 +16,7 @@ class DBUtils(object):
         self.close()
 
     def connect(self):
-        self.connection = sqlite3.connect(config['DATABASE'])
+        self.connection = sqlite3.connect(config.DATABASE)
 
     def close(self):
         self.connection.close()
