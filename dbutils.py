@@ -3,7 +3,8 @@ import sqlite3
 import config
 
 class DBUtils(object):
-    connection = None
+    db = None
+    curr = None
 
     def __init__(self):
         pass
@@ -11,15 +12,24 @@ class DBUtils(object):
     def dump_sql(self, app):
         self.connect()
         with app.open_resource('schema.sql') as f:
-            self.connection.cursor().executescript(f.read())
-        self.connection.commit()
+            self.db.cursor().executescript(f.read())
+        self.db.commit()
         self.close()
 
     def connect(self):
-        self.connection = sqlite3.connect(config.DATABASE)
+        self.db = sqlite3.connect(config.DATABASE)
 
     def close(self):
-        self.connection.close()
+        self.db.close()
+
+    def execute(self, expression):
+        self.curr = self.db.execute(expression)
+
+    def commit(self):
+        self.db.commit()
+
+    def fetchall(self):
+        return self.curr.fetchall()
 
 db = DBUtils()
 
