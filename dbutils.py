@@ -3,33 +3,48 @@ import sqlite3
 import config
 
 class DBUtils(object):
-    db = None
+    conn = None
     curr = None
 
     def __init__(self):
         pass
 
-    def dump_sql(self, app):
-        self.connect()
-        with app.open_resource('schema.sql') as f:
-            self.db.cursor().executescript(f.read())
-        self.db.commit()
-        self.close()
+    @property
+    def cursor(self):
+        return self.conn.cursor()
 
     def connect(self):
-        self.db = sqlite3.connect(config.DATABASE)
+        self.conn = sqlite3.connect(config.DATABASE)
 
     def close(self):
-        self.db.close()
+        self.conn.close()
 
     def execute(self, expression):
-        self.curr = self.db.execute(expression)
+        self.curr = self.conn.execute(expression)
 
     def commit(self):
-        self.db.commit()
+        self.conn.commit()
 
     def fetchall(self):
         return self.curr.fetchall()
+
+    def dump_sql(self, app):
+        self.connect()
+        with app.open_resource('schema.sql') as f:
+            self.cursor.executescript(f.read())
+        self.commit()
+        self.close()
+
+    def dump_test_data(self):
+        self.connect()
+        sql_scripts = "INSERT INTO entries VALUES('python', 'python is usefull');"
+        sql_scripts += "INSERT INTO entries VALUES('linux', 'linux is powerfull');"
+        sql_scripts += "INSERT INTO entries VALUES('java', 'java is heavy');"
+        sql_scripts += "INSERT INTO entries VALUES('lua', 'lua is good');"
+        sql_scripts += "INSERT INTO entries VALUES('ruby', 'ruby is hard');"
+        self.cursor.executescript(sql_scripts)
+        self.commit()
+        self.close()
 
 db = DBUtils()
 
