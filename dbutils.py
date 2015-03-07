@@ -19,8 +19,8 @@ class DBUtils(object):
     def close(self):
         self.conn.close()
 
-    def execute(self, expression):
-        self.curr = self.conn.execute(expression)
+    def execute(self, *args):
+        self.curr = self.conn.execute(*args)
 
     def commit(self):
         self.conn.commit()
